@@ -1,6 +1,6 @@
 # SPIN Sales Coach: LLM-as-a-Judge Evaluation Pipeline
 
-🔗 [You can find the Demo App deployed in Azure here.](https://frontend.icyforest-aa3b4633.southeastasia.azurecontainerapps.io/)
+_🔗 [You can find the Demo App deployed in Azure here.](https://frontend.icyforest-aa3b4633.southeastasia.azurecontainerapps.io/) It's on free credits so it might be a bit slow load. Performance was not considered on the deployment._
 
 Modern sales teams generate vast amounts of conversational data: calls, demos, discovery sessions, and follow-ups. Yet despite the volume, most of this data isn't actively used. Coaching is still mostly based on opinion, varies a lot, and is hard to scale. It depends on manual checks or surface-level metrics that don’t really show how conversations go.
 
