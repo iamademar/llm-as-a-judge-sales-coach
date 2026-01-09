@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+      args:
+        NEXT_PUBLIC_API_BASE: http://localhost:8000
+    container_name: llmpaa-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      # Internal API base for server-side calls (uses Docker service name)
+      - API_BASE_URL=http://backend:8000
+      # Public API base for client-side calls (uses localhost)
+      - NEXT_PUBLIC_API_BASE=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - llmpaa-network
+    volumes:
+      # Hot-reload for development (optional, comment out for production-like testing)
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: llmpaa-backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      # Override only DB_HOST to use docker service name
+      - DB_HOST=db
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      # Hot-reload for development
+      - ./backend/app:/workspace/app
+      - ./backend/tests:/workspace/tests
+      - ./backend/scripts:/workspace/scripts
+      - ./backend/alembic:/workspace/alembic
+    networks:
+      - llmpaa-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  db:
+    image: postgres:15-alpine
+    container_name: llmpaa-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=llmpaa
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - llmpaa-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+networks:
+  llmpaa-network:
+    driver: bridge

@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: demo-postgres
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo_db
+    ports:
+      - "5432:5432"
+
+  backend:
+    image: llmpaaregistry.azurecr.io/llmpaa-backend:demo
+    environment:
+      ENV: demo
+      DATABASE_URL: postgresql+psycopg2://demo:demo@db:5432/demo_db
+      # AUTO_SEED removed - demo data is now seeded manually via /seed-status page
+      API_KEY: demo-api-key-12345
+      MOCK_LLM: "true"
+      JWT_SECRET: demo-jwt-secret-change-in-production
+      LOG_LEVEL: INFO
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  frontend:
+    image: llmpaaregistry.azurecr.io/llmpaa-frontend:demo
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_BASE: http://backend:8000
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"

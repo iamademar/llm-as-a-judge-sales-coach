@@ -1,0 +1,15 @@
+---
+description: When encountering tightly coupled code—apply refactorings (extract interfaces, delegation) to break dependencies.
+globs: 
+alwaysApply: false
+---
+# Title: Break Dependencies to Enable Unit Testing
+
+## When tightly coupled or hard-to-test code is found...
+- Suggest using refactorings like Extract Interface, Replace Inheritance with Delegation, or Break Out Method Object.
+
+## Suggestion:
+"This class is hard to isolate. Consider extracting interfaces or delegating to smaller components to improve testability."
+
+## Justification:
+Breaking dependencies enables modularity and safer testing for components in isolation.

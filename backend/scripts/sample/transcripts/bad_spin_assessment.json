@@ -1,0 +1,86 @@
+{
+    "call_id": "car_insurance_bad_spin_001",
+    "metadata": {
+      "date": "2025-11-30T11:20:00Z",
+      "duration_seconds": 240,
+      "participants": [
+        { "id": "rep3", "role": "internal", "name": "Taylor (Sales Rep)" },
+        { "id": "cust3", "role": "external", "name": "Chris (Customer)" }
+      ]
+    },
+    "transcript": [
+      {
+        "start_time": 3.0,
+        "end_time": 10.0,
+        "speaker_id": "rep3",
+        "text": "Hi Chris! We’re running a great promotion on our car insurance today. We offer comprehensive cover, roadside assistance, and super-fast claims. Let me tell you about all the features."
+      },
+      {
+        "start_time": 10.0,
+        "end_time": 13.5,
+        "speaker_id": "cust3",
+        "text": "Uh, okay…"
+      },
+      {
+        "start_time": 13.5,
+        "end_time": 20.0,
+        "speaker_id": "rep3",
+        "text": "Our policy includes windscreen cover, theft cover, natural disaster cover, plus flexible payment options. You can pay monthly, quarterly, or yearly, whatever works best."
+      },
+      {
+        "start_time": 20.0,
+        "end_time": 25.0,
+        "speaker_id": "cust3",
+        "text": "I already have car insurance though."
+      },
+      {
+        "start_time": 25.0,
+        "end_time": 32.0,
+        "speaker_id": "rep3",
+        "text": "That’s totally fine, a lot of our customers switched from other providers. We’re very competitive and we’ve got a loyalty discount and a big no-claims bonus. Plus, our online reviews are excellent."
+      },
+      {
+        "start_time": 32.0,
+        "end_time": 36.0,
+        "speaker_id": "cust3",
+        "text": "Right…"
+      },
+      {
+        "start_time": 36.0,
+        "end_time": 43.0,
+        "speaker_id": "rep3",
+        "text": "We can insure almost any car model and we have a standard excess that keeps premiums low. Our mobile app lets you view your policy and lodge claims anytime."
+      },
+      {
+        "start_time": 43.0,
+        "end_time": 48.0,
+        "speaker_id": "cust3",
+        "text": "Okay, but I’m not sure I want to change anything right now."
+      },
+      {
+        "start_time": 48.0,
+        "end_time": 55.0,
+        "speaker_id": "rep3",
+        "text": "If you sign up today, we can give you one month free. It’s a great deal and you probably won’t find better cover elsewhere."
+      },
+      {
+        "start_time": 55.0,
+        "end_time": 60.0,
+        "speaker_id": "cust3",
+        "text": "I’d rather think about it first."
+      },
+      {
+        "start_time": 60.0,
+        "end_time": 67.0,
+        "speaker_id": "rep3",
+        "text": "I understand, but the offer is limited. Why don’t we just take your details now and you can always cancel if you change your mind?"
+      },
+      {
+        "start_time": 67.0,
+        "end_time": 72.0,
+        "speaker_id": "cust3",
+        "text": "No, I’m okay for now. Thanks."
+      }
+    ]
+  }
+  

@@ -1,0 +1,15 @@
+---
+description: When planning a major refactor—suggest a throwaway branch/file to safely experiment before merging changes.
+globs: 
+alwaysApply: false
+---
+# Title: Use Scratch Refactoring for Risk-Free Exploration
+
+## When major refactoring is needed...
+- Suggest cloning the code in a disposable context and testing refactor ideas safely.
+
+## Suggestion:
+"Try copying this code into a throwaway file or branch and freely refactor there before applying changes incrementally."
+
+## Justification:
+Scratch refactoring lets you explore improvements without risk and apply only the proven ones back into the production branch.

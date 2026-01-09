@@ -1,0 +1,15 @@
+---
+description: When facing hardcoded logic or direct dependencies—introduce a seam to decouple and enable isolated testing.
+globs: 
+alwaysApply: false
+---
+# Title: Use Seams to Isolate Behavior for Testing
+
+## When direct dependencies or hardcoded logic are detected...
+- Suggest using a seam (e.g., interface, config, or method override) to isolate behavior.
+
+## Suggestion:
+"This code uses a hard dependency. Consider creating a seam to inject alternatives or enable testability."
+
+## Justification:
+Seams help introduce test points and allow behavior to be altered without editing the legacy code directly.

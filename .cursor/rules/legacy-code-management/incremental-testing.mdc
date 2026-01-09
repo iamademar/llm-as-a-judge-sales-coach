@@ -1,0 +1,15 @@
+---
+description: When modifying untested classes—use indirection (extract methods, subclass) to add tests incrementally.
+globs: 
+alwaysApply: false
+---
+# Title: Introduce Tests Incrementally Using Indirection Techniques
+
+## When legacy classes lack tests but are undergoing changes...
+- Recommend using techniques like Extract Method, Subclass Override, or Interface Injection.
+
+## Suggestion:
+"Consider extracting this logic or parameterizing the constructor to make it testable in isolation."
+
+## Justification:
+Incremental testing enables safer refactors and improves code coverage without requiring full rewrites.

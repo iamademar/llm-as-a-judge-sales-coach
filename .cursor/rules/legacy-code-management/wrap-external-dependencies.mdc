@@ -1,0 +1,15 @@
+---
+description: When legacy code calls out to globals or third-party APIs—wrap those calls behind an interface for mocking.
+globs: 
+alwaysApply: false
+---
+# Title: Wrap External Dependencies for Testability
+
+## When accessing system resources, global state, or third-party APIs...
+- Recommend wrapping those in classes or interfaces under your control.
+
+## Suggestion:
+"This external call could make testing difficult. Consider abstracting it behind an interface or wrapper."
+
+## Justification:
+Wrapping dependencies allows mocking/stubbing during tests and decouples logic from infrastructure.

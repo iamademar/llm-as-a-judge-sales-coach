@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: llmpaa-app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - APP_ENV=${APP_ENV}
+      - API_KEY=${API_KEY}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - MOCK_LLM=${MOCK_LLM}
+      - DATABASE_URL=${DATABASE_URL}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    depends_on:
+      - db
+    volumes:
+      - ./app:/workspace/app
+      - ./tests:/workspace/tests
+      - ./scripts:/workspace/scripts
+      - ./alembic:/workspace/alembic
+    networks:
+      - llmpaa-network
+
+  db:
+    image: postgres:15-alpine
+    container_name: llmpaa-db
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - llmpaa-network
+
+volumes:
+  postgres_data:
+
+networks:
+  llmpaa-network:
+    driver: bridge

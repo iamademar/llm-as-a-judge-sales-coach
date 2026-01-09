@@ -1,0 +1,3 @@
+v1.0.0 — Initial Cursor Rules Migration
+v1.1.0 — Added Docker, SQLite-first testing, and Legacy Refactoring Rules
+Active: v1.1.0

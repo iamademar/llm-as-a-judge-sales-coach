@@ -1,0 +1,110 @@
+{
+    "call_id": "car_insurance_mid_spin_001",
+    "metadata": {
+      "date": "2025-11-30T10:05:00Z",
+      "duration_seconds": 300,
+      "participants": [
+        { "id": "rep2", "role": "internal", "name": "Sam (Sales Rep)" },
+        { "id": "cust2", "role": "external", "name": "Priya (Customer)" }
+      ]
+    },
+    "transcript": [
+      {
+        "start_time": 4.0,
+        "end_time": 9.0,
+        "speaker_id": "rep2",
+        "text": "Hi Priya, thanks for hopping on the call. To start, what car are you driving and how long have you owned it?"
+      },
+      {
+        "start_time": 9.0,
+        "end_time": 14.0,
+        "speaker_id": "cust2",
+        "text": "I’ve got a 2018 Honda Civic. I’ve had it for about five years now."
+      },
+      {
+        "start_time": 14.0,
+        "end_time": 18.0,
+        "speaker_id": "rep2",
+        "text": "And are you currently insured with another company?"
+      },
+      {
+        "start_time": 18.0,
+        "end_time": 23.0,
+        "speaker_id": "cust2",
+        "text": "Yes, I’m with my bank’s insurance. I just went with what they offered at the time."
+      },
+      {
+        "start_time": 23.0,
+        "end_time": 28.0,
+        "speaker_id": "rep2",
+        "text": "Got it. How happy are you with your current policy overall?"
+      },
+      {
+        "start_time": 28.0,
+        "end_time": 36.0,
+        "speaker_id": "cust2",
+        "text": "It’s okay, I guess. I feel like I might be paying more than I should, but I haven’t really checked other options."
+      },
+      {
+        "start_time": 36.0,
+        "end_time": 42.0,
+        "speaker_id": "rep2",
+        "text": "So mainly you’re worried that you might be overpaying?"
+      },
+      {
+        "start_time": 42.0,
+        "end_time": 48.0,
+        "speaker_id": "cust2",
+        "text": "Yeah, and I’m not totally sure what I’m actually covered for. Their documents are kind of confusing."
+      },
+      {
+        "start_time": 48.0,
+        "end_time": 55.0,
+        "speaker_id": "rep2",
+        "text": "If you’re overpaying or not fully covered, that’s not ideal. Have you ever had to make a claim with them?"
+      },
+      {
+        "start_time": 55.0,
+        "end_time": 60.0,
+        "speaker_id": "cust2",
+        "text": "No, I haven’t had to make a claim yet."
+      },
+      {
+        "start_time": 60.0,
+        "end_time": 68.0,
+        "speaker_id": "rep2",
+        "text": "Right, so it’s a bit of an unknown. If you did need to claim and then found out something important wasn’t covered, that could be pretty frustrating."
+      },
+      {
+        "start_time": 68.0,
+        "end_time": 73.0,
+        "speaker_id": "cust2",
+        "text": "Yeah, I really don’t want surprises like that."
+      },
+      {
+        "start_time": 73.0,
+        "end_time": 81.0,
+        "speaker_id": "rep2",
+        "text": "If you had a policy that clearly laid out what’s covered in plain language and came in at a similar or lower premium, would that be something you’d want to look at?"
+      },
+      {
+        "start_time": 81.0,
+        "end_time": 86.0,
+        "speaker_id": "cust2",
+        "text": "Yes, I’d definitely be interested in that."
+      },
+      {
+        "start_time": 86.0,
+        "end_time": 96.0,
+        "speaker_id": "rep2",
+        "text": "Great. We offer comprehensive cover with a simple two-page summary of everything important, plus the option to lower your premium if you choose a slightly higher excess. Should we go through what that might look like for your Civic?"
+      },
+      {
+        "start_time": 96.0,
+        "end_time": 100.0,
+        "speaker_id": "cust2",
+        "text": "Sure, let’s take a look."
+      }
+    ]
+  }
+  

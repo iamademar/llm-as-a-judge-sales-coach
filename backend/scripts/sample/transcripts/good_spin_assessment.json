@@ -1,0 +1,122 @@
+{
+    "call_id": "car_insurance_good_spin_001",
+    "metadata": {
+      "date": "2025-11-30T09:15:00Z",
+      "duration_seconds": 420,
+      "participants": [
+        { "id": "rep1", "role": "internal", "name": "Alex (Sales Rep)" },
+        { "id": "cust1", "role": "external", "name": "Jordan (Customer)" }
+      ]
+    },
+    "transcript": [
+      {
+        "start_time": 5.0,
+        "end_time": 10.0,
+        "speaker_id": "rep1",
+        "text": "Hi Jordan, thanks for taking the time today. To start, can you tell me what car you’re currently driving and how often you use it?"
+      },
+      {
+        "start_time": 10.0,
+        "end_time": 13.5,
+        "speaker_id": "cust1",
+        "text": "Sure, I drive a 2021 Toyota Corolla, mainly for my daily commute and some weekend trips."
+      },
+      {
+        "start_time": 13.5,
+        "end_time": 18.0,
+        "speaker_id": "rep1",
+        "text": "Got it. And what kind of car insurance do you have in place right now?"
+      },
+      {
+        "start_time": 18.0,
+        "end_time": 23.0,
+        "speaker_id": "cust1",
+        "text": "I’ve got comprehensive cover with another provider. I’ve been with them for around three years."
+      },
+      {
+        "start_time": 23.0,
+        "end_time": 29.0,
+        "speaker_id": "rep1",
+        "text": "How has your experience been with that provider so far, especially around premiums and claims?"
+      },
+      {
+        "start_time": 29.0,
+        "end_time": 36.5,
+        "speaker_id": "cust1",
+        "text": "Premiums keep going up every year, and I had a minor accident last year. The claims process was pretty slow and stressful."
+      },
+      {
+        "start_time": 36.5,
+        "end_time": 42.0,
+        "speaker_id": "rep1",
+        "text": "What specifically made the claims process feel slow or stressful for you?"
+      },
+      {
+        "start_time": 42.0,
+        "end_time": 51.0,
+        "speaker_id": "cust1",
+        "text": "It took almost three weeks to get my car back. I had to keep calling for updates and I didn’t have a replacement car that whole time."
+      },
+      {
+        "start_time": 51.0,
+        "end_time": 58.0,
+        "speaker_id": "rep1",
+        "text": "If something similar happened again and your car was off the road for a few weeks, how would that affect your day-to-day life?"
+      },
+      {
+        "start_time": 58.0,
+        "end_time": 66.0,
+        "speaker_id": "cust1",
+        "text": "That would be a big problem. I’d struggle getting to work and would end up spending a lot on rideshares."
+      },
+      {
+        "start_time": 66.0,
+        "end_time": 73.0,
+        "speaker_id": "rep1",
+        "text": "Beyond the extra cost, what impact would that kind of disruption have on your work or stress levels?"
+      },
+      {
+        "start_time": 73.0,
+        "end_time": 82.0,
+        "speaker_id": "cust1",
+        "text": "It’s pretty stressful. I have meetings in different places and I’d constantly worry about being late or missing them."
+      },
+      {
+        "start_time": 82.0,
+        "end_time": 92.0,
+        "speaker_id": "rep1",
+        "text": "So it sounds like quick, hassle-free claims and a replacement vehicle would make a big difference for you. If you had a policy that guaranteed a courtesy car within 24 hours and proactive status updates, how would that help in those situations?"
+      },
+      {
+        "start_time": 92.0,
+        "end_time": 99.0,
+        "speaker_id": "cust1",
+        "text": "That would be huge. I wouldn’t have to scramble for transport and could focus on work while the car gets fixed."
+      },
+      {
+        "start_time": 99.0,
+        "end_time": 107.0,
+        "speaker_id": "rep1",
+        "text": "And on the premium side, if we kept your cover comprehensive but made pricing more predictable, with the option to adjust your excess to fit your budget, would that also be valuable?"
+      },
+      {
+        "start_time": 107.0,
+        "end_time": 112.0,
+        "speaker_id": "cust1",
+        "text": "Yes, predictable costs and some control over the excess would be great."
+      },
+      {
+        "start_time": 112.0,
+        "end_time": 122.0,
+        "speaker_id": "rep1",
+        "text": "Based on what you’ve shared—wanting faster claims, a guaranteed replacement car, and more predictable premiums—would it make sense if I walk you through a policy that’s designed around exactly those points?",
+      },
+      {
+        "start_time": 122.0,
+        "end_time": 126.0,
+        "speaker_id": "cust1",
+        "text": "Yes, I’d definitely like to hear more."
+      }
+    ]
+  }
+  

@@ -1,0 +1,96 @@
+---
+alwaysApply: true
+---
+
+
+# FastAPI Development Guidelines
+
+## Core Principles
+- Write concise, technical responses with accurate Python examples
+- Use functional, declarative programming; avoid classes where possible
+- Prefer iteration and modularization over code duplication
+- Use descriptive variable names with auxiliary verbs (e.g., is_active, has_permission)
+- Use lowercase with underscores for directories and files (e.g., routers/user_routes.py)
+- Favor named exports for routes and utility functions
+- Use the Receive an Object, Return an Object (RORO) pattern
+
+## Python/FastAPI Standards
+- Use def for pure functions and async def for asynchronous operations
+- Use type hints for all function signatures. Prefer Pydantic models over raw dictionaries for input validation
+- Avoid unnecessary curly braces in conditional statements
+- For single-line statements in conditionals, omit curly braces
+- Use concise, one-line syntax for simple conditional statements (e.g., if condition: do_something())
+
+## File Structure: Layer-Based Organization
+This structure separates code by layer (routers, models, schemas, services, etc.) and is ideal for smaller FastAPI applications or microservices.
+
+```
+my_fastapi_project/
+├── app/
+│   ├── main.py                 # FastAPI entrypoint
+│   ├── routers/                # API route definitions
+│   │   ├── __init__.py
+│   │   ├── users.py
+│   │   └── items.py
+│   ├── models/                 # Database models (SQLAlchemy, etc.)
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   └── item.py
+│   ├── schemas/                # Pydantic models for request/response
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   └── item.py
+│   ├── services/               # Business logic / service layer
+│   │   ├── __init__.py
+│   │   ├── user_service.py
+│   │   └── item_service.py
+│   ├── dependencies.py         # Dependency injection helpers
+│   └── core/                   # Config, settings, utils
+│       ├── __init__.py
+│       ├── config.py
+│       ├── database.py
+│       └── security.py
+└── tests/             # tests folder
+     ├── __init__.py
+     ├── conftest.py   # shared fixtures, test DB setup, test client, etc.
+     ├── test_users.py  # tests for user routes / logic
+     ├── test_items.py  # tests for item routes / logic
+     ├── models/         # optional subfolder for model (unit) tests
+     │     └── test_user_model.py
+     └── services/       # optional subfolder for service-layer tests
+           └── test_user_service.py
+```
+
+## Test Strategy
+
+- **Unit tests (default):**
+  - Run with SQLite in-memory (`tests/unit/**`)
+  - Fast, isolated, transaction rollback
+  - Covers models, schemas, routers, services
+
+- **Integration tests:**
+  - Use Postgres test DB (`tests/integration/**`)
+  - Run only when marked with `@pytest.mark.integration` or invoked explicitly
+  - Covers UUID/ENUM/DECIMAL edge cases, Alembic migrations, server-side timestamps, FK enforcement
+
+- **Commands:**
+  - Default (SQLite): `pytest -q`
+  - Integration only: `pytest -q -m integration`
+  - All tests: `pytest -q -m ""`
+
+📌 Rule of thumb:  
+Keep everything on SQLite unless a test fails due to Postgres-specific behavior.  
+In that case, move it to `tests/integration/` or add `@pytest.mark.integration`.
+
+
+### Key Directory Notes
+- **app/main.py** - Initializes the application and includes routers
+- **routers/** - Contains API endpoints grouped by resource
+- **models/** - Defines database tables or ORM classes
+- **schemas/** - Defines Pydantic request/response models
+- **services/** - Implements business logic (e.g., user registration, item processing)
+- **dependencies.py** - Shared FastAPI dependencies (DB session, auth, etc.)
+- **core/** - Configuration, database setup, security utilities
+- **tests/** - Mirrors routes/services for clear mapping in test coverage
+
+This structure is recommended for smaller apps where clarity and separation of concerns are prioritized.

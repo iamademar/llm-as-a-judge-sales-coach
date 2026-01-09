@@ -1,0 +1,15 @@
+---
+description: When adding new behavior into fragile code—sprout a new method/class instead of editing existing code.
+globs: 
+alwaysApply: false
+---
+# Title: Sprout Method or Class for New Behavior
+
+## When new logic is introduced into legacy code...
+- Recommend creating a new method or class instead of modifying the legacy code directly.
+
+## Suggestion:
+"Instead of inserting new behavior here, consider creating a new method or class and calling it from this location."
+
+## Justification:
+Sprouting reduces the risk of introducing bugs into fragile or untested legacy areas.

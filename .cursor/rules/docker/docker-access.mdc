@@ -1,0 +1,113 @@
+---
+alwaysApply: true
+---
+# LLMPAA Docker Development Rules
+
+## Docker Development Environment
+
+### Application Management
+- When asked to run the FastAPI application, use: `docker compose up -d`
+- When asked to access the FastAPI container shell, use: `docker compose exec app bash`
+- When asked to restart the application, use: `docker compose restart app`
+- When asked to view application logs, use: `docker compose logs -f app`
+- When asked for limited log output, use: `docker compose logs --tail=100 app`
+- When asked to check application health, use: `curl http://localhost:8001/health`
+- When asked to view API documentation, direct to: http://localhost:8001/docs
+
+### Service Management
+- When asked to stop services, use: `docker compose down`
+- When asked to stop services and remove volumes, use: `docker compose down -v --remove-orphans`
+- When asked to rebuild and start, use: `docker compose up --build -d`
+- When asked to view running services, use: `docker compose ps`
+- When asked to view resource usage, use: `docker stats`
+- When asked to clean up unused containers/images, use: `docker system prune`
+
+### Environment Management
+- When asked to use specific environment file, use: `docker compose --env-file .env.dev up -d`
+- When asked to check environment variables, use: `docker compose exec app env | grep API_`
+- When asked to run with development environment, use: `docker compose --env-file .env.dev up -d`
+
+### Database Access
+- When asked to connect to the main database, use: `docker compose exec postgres psql -U postgres -d lexitau`
+- When asked to connect to the test database, use: `docker compose exec postgres_test psql -U postgres -d lexitau_test`
+- When asked to view database tables, use: `docker compose exec postgres psql -U postgres -d lexitau -c "\dt"`
+- When asked to describe a table structure, use: `docker compose exec postgres psql -U postgres -d lexitau -c "\d {table_name}"`
+- When asked to run SQL queries, prefix with: `docker compose exec postgres psql -U postgres -d lexitau -c "`
+
+### Database Operations
+- When asked to backup database, use: `docker compose exec postgres pg_dump -U postgres lexitau > backup.sql`
+- When asked to restore database, use: `docker compose exec -T postgres psql -U postgres lexitau < backup.sql`
+- When asked to run migrations (if using Alembic), use: `docker compose exec app alembic upgrade head`
+- When asked to create new migration, use: `docker compose exec app alembic revision --autogenerate -m "description"`
+
+### Testing Commands
+
+- **Default (Unit tests only, SQLite in-memory, fast)**  
+  ```bash
+  docker compose run --no-deps --rm app pytest -q -m "not integration"
+````
+
+* **Verbose (Unit, SQLite)**
+
+  ```bash
+  docker compose run --no-deps --rm app pytest -vv -m "not integration"
+  ```
+
+* **Parallel (Unit, SQLite only)**
+
+  ```bash
+  docker compose run --no-deps --rm app pytest -q -n auto -m "not integration"
+  ```
+
+  ⚠️ Do **not** use with Postgres integration tests (schema race conditions).
+
+* **Integration tests only (Postgres required)**
+
+  ```bash
+  docker compose run --no-deps --rm app pytest -q -m integration
+  ```
+
+  Uses the `postgres_test` container (host port **5435**) and `TEST_DATABASE_URL`.
+
+  Preflight:
+
+  ```bash
+  docker compose up -d postgres_test
+  docker compose ps
+  ```
+
+* **All tests (Unit + Integration)**
+
+  ```bash
+  docker compose run --no-deps --rm app pytest -q -m ""
+  ```
+
+---
+
+⚡️ **Guidelines**
+
+* Default workflow: **run unit tests first** (fast).
+* If a test fails on SQLite because of Postgres-only features (UUID, ENUM, `func.now()`, DECIMAL precision, migrations, etc.), move it to `tests/integration/` or mark with `@pytest.mark.integration`.
+* CI runs with Postgres enabled, so both unit + integration tests will execute.
+
+### Development Commands
+
+* When asked to install Python packages, access the container first: `docker compose exec app bash` then run pip commands
+* When asked to run Python directly, use: `docker compose exec app python -m app.main`
+* When asked to run interactive Python, use: `docker compose exec app python`
+
+### Environment Context
+
+* This is a containerized FastAPI application with PostgreSQL
+* Main database (host) runs on port **5434**, test database (host) on **5435**
+* Application (host) runs on port **8001**
+* All development should happen within Docker containers
+* Never suggest running Python/pip commands directly on host - always use `docker compose exec`
+
+### Troubleshooting
+
+* When containers won't start, check: `docker compose logs`
+* When database connection fails, verify: `docker compose ps` and ensure postgres is healthy
+* When port conflicts occur, check: `docker compose down` then `docker compose up -d`
+* When disk space issues arise, use: `docker system prune -a`
+

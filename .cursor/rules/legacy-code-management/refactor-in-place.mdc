@@ -1,0 +1,14 @@
+---
+alwaysApply: false
+---
+# Title: Refactor Incrementally, Avoid Full Rewrites
+
+## When encountering large, untested legacy code...
+- Discourage full rewrites.
+- Encourage small, reversible changes with incremental testing.
+
+## Suggestion:
+"Instead of rewriting, refactor a small part and add tests as you go. Aim for continuous improvement."
+
+## Justification:
+Refactoring in place avoids regressions, preserves existing behavior, and retains undocumented business rules.

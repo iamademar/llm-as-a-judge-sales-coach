@@ -1,0 +1,16 @@
+---
+description: When about to change legacy code without tests, write characterization tests first to lock in current behavior.
+globs: 
+alwaysApply: false
+---
+# Title: Characterization Testing Before Modifications
+
+## When modifying legacy code...
+- Check if the method or class has existing tests.
+- If not, recommend writing characterization tests to lock in current behavior.
+
+## Suggestion:
+"Consider writing a test that captures the current output of this method before modifying it."
+
+## Justification:
+Characterization tests protect against unintended behavior changes and document existing logic, especially when no tests exist.

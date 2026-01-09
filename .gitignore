@@ -1,0 +1,90 @@
+# ================================
+# Secrets / env files (never commit)
+# ================================
+.env
+.env.*
+!.env.example
+.env.local
+.env.*.local
+
+# Common secret/config files
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+*.jks
+*.keystore
+*.secrets.*
+secrets.*
+secret.*
+
+# ================================
+# OS / Editor
+# ================================
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+.vscode/
+.idea/
+*.iml
+
+# ================================
+# Python (FastAPI backend)
+# ================================
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+
+.venv/
+venv/
+env/
+ENV/
+
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+
+# Logs
+*.log
+
+# ================================
+# Node / Next.js (frontend)
+# ================================
+node_modules/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ================================
+# Docker / compose local overrides
+# ================================
+docker-compose.override.yml
+
+# ================================
+# Repo tooling artifacts (your repo has these)
+# ================================
+repomix-output.xml
+.repomixignore
+
+# ================================
+# Local scripts with personal infra (recommended)
+# ================================
+deploy-demo.sh

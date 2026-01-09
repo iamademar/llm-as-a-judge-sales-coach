@@ -1,0 +1,357 @@
+"""
+Overview statistics schemas for dashboard metrics.
+
+Pydantic models for overview/dashboard statistics aggregation.
+"""
+from typing import Optional, Literal
+from datetime import datetime
+from pydantic import BaseModel, Field, ConfigDict
+
+
+class DimensionStats(BaseModel):
+    """
+    Statistics for a single SPIN dimension.
+    
+    Used for calculating weakest dimension and per-dimension averages.
+    """
+    dimension: str = Field(..., description="Dimension name (e.g., 'situation', 'problem')")
+    average_score: float = Field(..., description="Average score for this dimension")
+
+
+class OverviewStatisticsResponse(BaseModel):
+    """
+    Response schema for overview statistics endpoint.
+
+    Provides aggregated metrics across all transcripts/assessments
+    for a given date range, with optional comparison to previous period.
+
+    Matches frontend's OverviewSummary interface.
+    """
+    total_conversations: int = Field(
+        ...,
+        description="Total number of conversations analyzed (transcripts with assessments)"
+    )
+    avg_composite_score: float = Field(
+        ...,
+        description="Average composite SPIN score across all assessments"
+    )
+    percentage_above_target: float = Field(
+        ...,
+        description="Percentage of conversations with composite score >= threshold"
+    )
+    weakest_dimension: str = Field(
+        ...,
+        description="SPIN dimension with lowest average score (capitalized)"
+    )
+    dimension_averages: dict[str, float] = Field(
+        ...,
+        description="Average scores for each SPIN dimension (1-5 scale), rounded to 2 decimals"
+    )
+
+    # Optional delta fields (comparison to previous period)
+    delta_conversations: Optional[str] = Field(
+        None,
+        description="Percentage change in conversation count vs previous period (e.g., '+18%')"
+    )
+    delta_score: Optional[str] = Field(
+        None,
+        description="Absolute change in average score vs previous period (e.g., '+0.2')"
+    )
+    delta_percentage: Optional[str] = Field(
+        None,
+        description="Percentage point change in above-target rate vs previous period (e.g., '-3%')"
+    )
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "total_conversations": 243,
+                "avg_composite_score": 3.7,
+                "percentage_above_target": 62.0,
+                "weakest_dimension": "Implication",
+                "dimension_averages": {
+                    "situation": 4.12,
+                    "problem": 3.78,
+                    "implication": 2.94,
+                    "need_payoff": 3.41,
+                    "flow": 3.63,
+                    "tone": 4.25,
+                    "engagement": 3.89
+                },
+                "delta_conversations": "+18%",
+                "delta_score": "+0.2",
+                "delta_percentage": "-3%"
+            }
+        }
+    )
+
+
+class TrendDataPoint(BaseModel):
+    """
+    Single time-series data point for SPIN dimension trends.
+
+    Contains daily average scores for all 7 SPIN dimensions,
+    plus conversation volume and quality metrics.
+    """
+    date: str = Field(
+        ...,
+        description="Date in YYYY-MM-DD format"
+    )
+    situation: float = Field(..., description="Average situation score (1-5)")
+    problem: float = Field(..., description="Average problem score (1-5)")
+    implication: float = Field(..., description="Average implication score (1-5)")
+    need_payoff: float = Field(..., description="Average need-payoff score (1-5)")
+    flow: float = Field(..., description="Average flow score (1-5)")
+    tone: float = Field(..., description="Average tone score (1-5)")
+    engagement: float = Field(..., description="Average engagement score (1-5)")
+
+    # Volume & Quality metrics
+    conversation_count: int = Field(..., description="Number of conversations on this date")
+    percent_above_target: float = Field(..., description="Percentage of conversations above threshold (0-100)")
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "date": "2025-11-27",
+                "situation": 4.1,
+                "problem": 3.8,
+                "implication": 2.9,
+                "need_payoff": 3.4,
+                "flow": 3.6,
+                "tone": 4.2,
+                "engagement": 3.9,
+                "conversation_count": 12,
+                "percent_above_target": 66.7
+            }
+        }
+    )
+
+
+class OverviewTrendsResponse(BaseModel):
+    """
+    Response schema for time-series SPIN trends.
+
+    Returns daily average scores for each dimension over the requested period.
+    """
+    trend_data: list[TrendDataPoint] = Field(
+        ...,
+        description="Daily average SPIN dimension scores"
+    )
+    total_days: int = Field(..., description="Number of days in the period")
+    days_with_data: int = Field(..., description="Number of days with at least one assessment")
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "trend_data": [
+                    {
+                        "date": "2025-11-27",
+                        "situation": 4.1,
+                        "problem": 3.8,
+                        "implication": 2.9,
+                        "need_payoff": 3.4,
+                        "flow": 3.6,
+                        "tone": 4.2,
+                        "engagement": 3.9
+                    }
+                ],
+                "total_days": 30,
+                "days_with_data": 28
+            }
+        }
+    )
+
+
+class CoachingQueueItem(BaseModel):
+    """
+    Single coaching queue item representing a conversation needing attention.
+    
+    Conversations are included if their composite score is below the threshold.
+    """
+    id: int = Field(..., description="Transcript ID")
+    rep: str = Field(..., description="Representative name")
+    buyer: str = Field(..., description="Buyer/account identifier")
+    composite: float = Field(..., description="Composite SPIN score (1-5 scale)")
+    weakest_dim: str = Field(..., description="Weakest SPIN dimension (capitalized)")
+    created_at: str = Field(..., description="Assessment creation timestamp (ISO 8601)")
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "id": 42,
+                "rep": "Alex Thang",
+                "buyer": "Acme Corp",
+                "composite": 2.8,
+                "weakest_dim": "Implication",
+                "created_at": "2025-11-27T09:00:00Z"
+            }
+        }
+    )
+
+
+class CoachingQueueResponse(BaseModel):
+    """
+    Response schema for coaching queue endpoint.
+    
+    Returns conversations below threshold that need coaching attention.
+    """
+    items: list[CoachingQueueItem] = Field(
+        ...,
+        description="List of conversations needing coaching (sorted by newest first)"
+    )
+    total_count: int = Field(..., description="Total number of items in queue")
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "items": [
+                    {
+                        "id": 42,
+                        "rep": "Alex Thang",
+                        "buyer": "Acme Corp",
+                        "composite": 2.8,
+                        "weakest_dim": "Implication",
+                        "created_at": "2025-11-27T09:00:00Z"
+                    }
+                ],
+                "total_count": 8
+        }
+    }
+    )
+
+
+class RepLeaderboardItem(BaseModel):
+    """
+    Single representative leaderboard row for the overview page.
+    """
+    rank: int = Field(..., description="Rank order by avg composite score (1 = highest)")
+    rep: str = Field(..., description="Representative full name")
+    conversation_count: int = Field(..., description="Number of assessed conversations in period")
+    avg_composite: float = Field(..., description="Average composite SPIN score for the rep")
+    strongest: str = Field(..., description="Highest-performing SPIN dimension (title-cased)")
+    strongest_score: float = Field(..., description="Score for strongest dimension")
+    weakest: str = Field(..., description="Lowest-performing SPIN dimension (title-cased)")
+    weakest_score: float = Field(..., description="Score for weakest dimension")
+    trend: float = Field(..., description="Change in avg composite vs previous period (positive = improving)")
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "rank": 1,
+                "rep": "Jordan Lee",
+                "conversation_count": 18,
+                "avg_composite": 3.9,
+                "strongest": "Tone",
+                "strongest_score": 4.4,
+                "weakest": "Implication",
+                "weakest_score": 3.2,
+                "trend": 0.3
+            }
+        }
+    )
+
+
+class RepLeaderboardResponse(BaseModel):
+    """
+    Response schema for rep leaderboard endpoint.
+    """
+    items: list[RepLeaderboardItem] = Field(
+        ...,
+        description="Ranked reps ordered by avg composite score (desc)"
+    )
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "items": [
+                    {
+                        "rank": 1,
+                        "rep": "Jordan Lee",
+                        "conversation_count": 18,
+                        "avg_composite": 3.9,
+                        "strongest": "Tone",
+                        "strongest_score": 4.4,
+                        "weakest": "Implication",
+                        "weakest_score": 3.2,
+                        "trend": 0.3
+                    }
+                ]
+            }
+        }
+    )
+
+
+class OverviewInsight(BaseModel):
+    """
+    Single coaching insight item for the overview page.
+    
+    Provides a short title and supporting detail users can scan quickly.
+    """
+    title: str = Field(..., description="Short headline for the insight")
+    detail: str = Field(..., description="Supporting detail or context for the insight")
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "title": "Score trend",
+                "detail": "Avg composite 3.7 (+0.2 vs prior period); keep reinforcing implication questions"
+            }
+        }
+    )
+
+
+class OverviewInsightsResponse(BaseModel):
+    """
+    Response schema for overview coaching insights.
+
+    Returns a small, readable list of insights derived from recent performance.
+    """
+    insights: list[OverviewInsight] = Field(..., description="List of coaching insights")
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "insights": [
+                    {
+                        "title": "Score trend",
+                        "detail": "Avg composite 3.7 (+0.2 vs prior period)"
+                    },
+                    {
+                        "title": "Weakest dimension",
+                        "detail": "Implication remains lowest at 2.9; focus coaching here first"
+                    }
+                ]
+            }
+        }
+    )
+
+
+class ModelHealthResponse(BaseModel):
+    """
+    Response schema for model health/calibration data.
+
+    Shows the latest evaluation metrics for the active prompt template,
+    combined with recent production latency statistics.
+    """
+    model_name: str = Field(..., description="LLM model name (e.g., 'gpt-4o-mini')")
+    prompt_version: str = Field(..., description="Prompt template version (e.g., 'v0', 'v1')")
+    last_eval_date: datetime = Field(..., description="Timestamp of last evaluation run")
+    macro_pearson_r: float = Field(..., description="Macro-averaged Pearson correlation")
+    macro_qwk: float = Field(..., description="Macro-averaged Quadratic Weighted Kappa")
+    avg_latency_ms: Optional[int] = Field(None, description="Average latency in milliseconds (None if no data)")
+    status: Literal["healthy", "warning", "critical"] = Field(..., description="Health status based on QWK")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "model_name": "gpt-4o-mini",
+                "prompt_version": "v3",
+                "last_eval_date": "2025-11-20T15:30:00Z",
+                "macro_pearson_r": 0.78,
+                "macro_qwk": 0.73,
+                "avg_latency_ms": 1250,
+                "status": "healthy"
+            }
+        }
+    )
